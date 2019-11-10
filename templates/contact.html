@@ -1,0 +1,17 @@
+{% include 'includes/_messages.html' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <form method="post" action='{{url_for("contact")}}' id="contactform">
+            <input type="text" id="name" name="name" placeholder="Name" required>
+            <input type="email" id="email" name="email" placeholder="E-Mail" required>
+            <input type="text" id="subject" name="subject" placeholder="Subject" required>
+            <textarea name="message" id="message" placeholder="Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </body>
+</html>
