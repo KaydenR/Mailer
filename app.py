@@ -12,8 +12,7 @@ app.config['MAIL_USE_TLS'] = True
 
 
 app.secret_key='secret123'
- 
-@app.route('/')
+@app.route('/') 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'GET':
@@ -25,7 +24,6 @@ def contact():
         user_email = request.form['email']
         subject = request.form['subject']
         message = request.form['message']
-        print(name, user_email, subject, message)
         
         mailer.send(subject=subject, name=name, user_email=user_email, message=message)
 
@@ -57,8 +55,12 @@ class Mailer:
  
             #set email template
             html = self.template(user_name, user_email, user_message)
+            if msg:
+                msg.attach(MIMEText(html.encode('utf-8'), 'html', 'utf-8'))
+            else:
+                print('Error with HTML')
            
-            msg.attach(MIMEText(html.encode('utf-8'), 'html', 'utf-8'))
+            msg.attach(MIMEText(html, 'html', 'utf-8'))
             server = smtplib.SMTP(self.SMTP, self.PORT)
             server.starttls()
             server.login(self.FROM_ADDR, self.PASSWORD)
@@ -70,7 +72,7 @@ class Mailer:
         except Exception as e:
             print(e)
             pass
- 
+
     def template(self, user_name, user_email, user_message):
         html = """
        From: {} -- {}
